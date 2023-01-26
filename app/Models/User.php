@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Chirp::class);
     }
+
+    public function lazTrx()
+    {
+        return $this->hasMany(LazTrx::class);
+    }
 }
