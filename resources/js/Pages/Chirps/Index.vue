@@ -2,6 +2,8 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import InputError from "@/Components/InputError.vue";
 import Chirp from "@/Components/Chirp/Chirp.vue";
+import OnlineUsers from "@/Components/Chirp/OnlineUsers.vue";
+import Pagination from "@/Components/Pagination.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { useForm, Head } from "@inertiajs/vue3";
 import { onMounted, onUnmounted, ref } from "vue";
@@ -9,28 +11,27 @@ import { onMounted, onUnmounted, ref } from "vue";
 const props = defineProps(["chirps"]);
 const onlineUsers = ref([]);
 onMounted(() => {
-    console.log("mounted");
-});
-Echo.join("chirp-channel")
-    .here((users) => {
-        console.log(users);
-        onlineUsers.value = users;
-    })
-    .joining((user) => {
-        console.log("joining " + user.name);
-        onlineUsers.value.push(user);
-    })
-    .leaving((user) => {
-        console.log("leaving " + user.name);
-        onlineUsers.value = onlineUsers.value.filter((u) => {
-            return u.id !== user.id;
+    Echo.join("chirp-channel")
+        .here((users) => {
+            console.log(users);
+            onlineUsers.value = users;
+        })
+        .joining((user) => {
+            console.log("joining " + user.name);
+            onlineUsers.value.push(user);
+        })
+        .leaving((user) => {
+            console.log("leaving " + user.name);
+            onlineUsers.value = onlineUsers.value.filter((u) => {
+                return u.id !== user.id;
+            });
+        })
+        .listen("ChirpCreated", (e) => {
+            // console.log("==== even berhasil diterima ====");
+            // console.log(e.id);
+            props.chirps.data.unshift(e.id);
         });
-    })
-    .listen("ChirpCreated", (e) => {
-        console.log("==== even berhasil diterima ====");
-        // console.log(e.id);
-        props.chirps.unshift(e.id);
-    });
+});
 
 const form = useForm({
     message: "",
@@ -63,22 +64,18 @@ onUnmounted(() => {
                 </form>
                 <div class="mt-6 divide-y rounded-lg bg-white shadow-sm">
                     <Chirp
-                        v-for="chirp in props.chirps"
+                        v-for="chirp in props.chirps.data"
                         :key="chirp.id"
                         :chirp="chirp"
                     />
                 </div>
             </div>
             <div v-if="onlineUsers" class="p-4 text-gray-600 sm:p-6 lg:p-8">
-                <div class="rounded-lg bg-white px-6 py-4 shadow-sm">
-                    <div class="border-b text-xl">Online users</div>
-                    <ul class="mt-2">
-                        <li v-for="user in onlineUsers" :key="user.id">
-                            {{ user.name }}
-                        </li>
-                    </ul>
-                </div>
+                <OnlineUsers :users="onlineUsers" />
             </div>
+        </div>
+        <div class="flex w-full justify-center p-4 sm:p-6 lg:p-8">
+            <Pagination class="mt-6" :links="props.chirps.links" />
         </div>
     </AppLayout>
 </template>

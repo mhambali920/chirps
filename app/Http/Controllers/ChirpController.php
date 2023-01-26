@@ -17,7 +17,7 @@ class ChirpController extends Controller
     public function index()
     {
         return Inertia::render('Chirps/Index', [
-            'chirps' => Chirp::with('user:id,name')->latest()->get(),
+            'chirps' => Chirp::with('user:id,name')->latest()->paginate(12),
         ]);
     }
 
@@ -45,7 +45,7 @@ class ChirpController extends Controller
 
         $chirp = $request->user()->chirps()->create($validated);
         broadcast(new ChirpCreated($chirp))->toOthers();
-        return response()->json($chirp);
+        // return response()->json($chirp);
         return redirect(route('chirps.index'));
     }
 

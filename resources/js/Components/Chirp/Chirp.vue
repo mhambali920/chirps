@@ -111,7 +111,9 @@ const editing = ref(false);
                     </button>
                 </div>
             </form>
-            <p v-else class="mt-4 text-lg text-gray-900">{{ chirp.message }}</p>
+            <p v-else class="mt-4 text-lg text-gray-900">
+                {{ chirp.message }}
+            </p>
         </div>
     </div>
 </template>
