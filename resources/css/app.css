@@ -16,6 +16,6 @@
         @apply bg-gray-100;
     }
     ::selection {
-        @apply bg-red-700 text-white;
+        @apply bg-indigo-700 text-white;
     }
 }

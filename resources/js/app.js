@@ -20,6 +20,17 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .mixin({
+                methods: {
+                    formatRupiah(money) {
+                        return new Intl.NumberFormat("id-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                            minimumFractionDigits: 0,
+                        }).format(money);
+                    },
+                },
+            })
             .mount(el);
     },
     progress: {

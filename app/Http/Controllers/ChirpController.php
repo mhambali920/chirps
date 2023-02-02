@@ -87,7 +87,7 @@ class ChirpController extends Controller
         ]);
 
         $chirp->update($validated);
-
+        // broadcast(new ChirpCreated($chirp))->toOthers();
         return redirect(route('chirps.index'));
     }
 

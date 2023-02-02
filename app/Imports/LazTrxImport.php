@@ -5,12 +5,13 @@ namespace App\Imports;
 use App\Models\LazTrx;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concern\WithHeadingRow;
-use Maatwebsite\Excel\Concern\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+
 // use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
 
-class LazTrxImport implements ToModel, WithHeadingRow, WithBatchInserts
+class LazTrxImport implements ToModel, WithChunkReading, WithHeadingRow
 {
     // HeadingRowFormatter::default('none');
 
@@ -23,7 +24,7 @@ class LazTrxImport implements ToModel, WithHeadingRow, WithBatchInserts
     {
         return new LazTrx([
             'user_id' => Auth::id(),
-            'transaction_date' => $row['transaction_date'],
+            'transaction_date' => date("Y-m-d", strtotime($row['transaction_date'])),
             'transaction_type' => $row['transaction_type'],
             'fee_name' => $row['fee_name'],
             'details' => $row['details'],
@@ -31,10 +32,11 @@ class LazTrxImport implements ToModel, WithHeadingRow, WithBatchInserts
             'lazada_sku' => $row['lazada_sku'],
             'amount' => $row['amount'],
             'order_no' => $row['order_no'],
+            'order_item_no' => $row['order_item_no'],
         ]);
     }
 
-    public function batchSize(): int
+    public function chunkSize(): int
     {
         return 1000;
     }

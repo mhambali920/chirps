@@ -9,6 +9,7 @@ class LazTrx extends Model
 {
     use HasFactory;
 
+    protected $table = 'laz_trxes';
     protected $fillable = [
         'user_id',
         'transaction_date',
@@ -18,7 +19,8 @@ class LazTrx extends Model
         'seller_sku',
         'lazada_sku',
         'amount',
-        'order_no'
+        'order_no',
+        'order_item_no'
     ];
 
     public function user()

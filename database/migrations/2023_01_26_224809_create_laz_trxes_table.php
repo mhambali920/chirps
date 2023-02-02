@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('lazada_sku')->nullable();
             $table->integer('amount');
             $table->string('order_no');
+            $table->string('order_item_no')->nullable();
             $table->timestamps();
         });
     }

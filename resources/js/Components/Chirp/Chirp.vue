@@ -71,7 +71,7 @@ const editing = ref(false);
                         </button>
                         <form
                             @submit.prevent="
-                                form.delete(route('chirps.update', chirp.id))
+                                form.delete(route('chirps.destroy', chirp.id))
                             "
                         >
                             <button
