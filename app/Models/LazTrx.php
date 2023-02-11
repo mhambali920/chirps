@@ -27,4 +27,9 @@ class LazTrx extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function lazproduct()
+    {
+        return $this->belongsTo(LazProduct::class, 'lazada_sku', 'lazada_sku');
+    }
 }

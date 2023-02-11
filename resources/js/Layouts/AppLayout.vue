@@ -64,7 +64,7 @@ const logout = () => {
                                     :href="route('chirps.index')"
                                     :active="route().current('chirps.index')"
                                 >
-                                    Chirp
+                                    Obrolan
                                 </NavLink>
                                 <NavLink
                                     :href="route('laztrx.index')"
@@ -364,7 +364,7 @@ const logout = () => {
                             :href="route('chirps.index')"
                             :active="route().current('chirps.index')"
                         >
-                            Chirp
+                            Obrolan
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('laztrx.index')"

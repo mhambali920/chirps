@@ -81,7 +81,7 @@ const update = (data, base_price) => {
                             </tr>
                         </thead>
                         <tbody class="text-gray-700">
-                            <template v-if="trxs">
+                            <template v-if="trxs.length">
                                 <tr
                                     v-for="(trx, index) in trxs"
                                     :key="trx.id"
@@ -201,8 +201,8 @@ const update = (data, base_price) => {
                             </template>
                             <tr v-else>
                                 <td
-                                    colspan="2"
-                                    class="w-1/3 py-24 px-4 text-center text-2xl text-gray-400"
+                                    colspan="5"
+                                    class="py-12 px-4 text-center text-2xl text-gray-400"
                                 >
                                     Tidak ada data
                                 </td>

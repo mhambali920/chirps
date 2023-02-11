@@ -247,8 +247,17 @@ const closeModal = () => {
                                         trx.amount < 0 ? 'text-red-600' : ''
                                     "
                                 >
-                                    <td class="w-1/3 py-3 px-4 text-left">
-                                        {{ trx.fee_name }}
+                                    <td
+                                        class="w-1/3 py-3 px-4 text-left hover:underline"
+                                    >
+                                        <Link
+                                            :href="
+                                                route('laztrx.fee_name', {
+                                                    fee_name: trx.fee_name,
+                                                })
+                                            "
+                                            >{{ trx.fee_name }}</Link
+                                        >
                                     </td>
                                     <td class="w-1/3 py-3 px-4 text-left">
                                         {{ formatRupiah(trx.amount) }}

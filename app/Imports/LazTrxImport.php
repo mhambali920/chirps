@@ -5,16 +5,14 @@ namespace App\Imports;
 use App\Models\LazTrx;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
 // use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
 
-class LazTrxImport implements ToModel, WithChunkReading, WithHeadingRow
+class LazTrxImport implements ToModel, WithHeadingRow, WithBatchInserts
 {
-    // HeadingRowFormatter::default('none');
-
     /**
      * @param array $row
      *
@@ -36,7 +34,7 @@ class LazTrxImport implements ToModel, WithChunkReading, WithHeadingRow
         ]);
     }
 
-    public function chunkSize(): int
+    public function batchSize(): int
     {
         return 1000;
     }

@@ -21,6 +21,9 @@ use Inertia\Inertia;
 Route::get('/news', function () {
     return Inertia::render('Front/Index');
 });
+Route::get('/news/{id}', function () {
+    return Inertia::render('Front/Show');
+});
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -47,6 +50,7 @@ Route::middleware([
     Route::get('/laz_transaction', [LazTrxController::class, 'index'])->name('laztrx.index');
     Route::post('/laz_transaction', [LazTrxController::class, 'import'])->name('laztrx.import');
     Route::get('/laz_transaction/edit', [LazTrxController::class, 'edit'])->name('laztrx.edit');
+    Route::get('/laz_transaction/{fee_name}', [LazTrxController::class, 'feeName'])->name('laztrx.fee_name');
     Route::delete('/laz_transaction', [LazTrxController::class, 'destroy'])->name('laztrx.destroy');
 
     Route::post('/laz_product/update', [LazProductController::class, 'editPrice'])->name('lazproduct.update');
