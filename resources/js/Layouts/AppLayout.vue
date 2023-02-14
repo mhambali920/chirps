@@ -72,6 +72,13 @@ const logout = () => {
                                 >
                                     Laz
                                 </NavLink>
+                                <NavLink
+                                    v-if="$page.props.user.role === 'ADMIN'"
+                                    :href="route('users.index')"
+                                    :active="route().current('users.*')"
+                                >
+                                    Users
+                                </NavLink>
                             </div>
                         </div>
 
@@ -371,6 +378,12 @@ const logout = () => {
                             :active="route().current('laztrx.*')"
                         >
                             Laz
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('users.index')"
+                            :active="route().current('users.*')"
+                        >
+                            Users
                         </ResponsiveNavLink>
                     </div>
 

@@ -4,6 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { computed, onMounted, ref } from "vue";
 import { Head, router, Link, usePage } from "@inertiajs/vue3";
+import Swal from "sweetalert2";
 
 const inputs = ref([]);
 let trxs = computed(() => usePage().props.trxs);
@@ -18,7 +19,24 @@ const update = (data, base_price) => {
             base_price: base_price,
             lazada_sku: data.lazada_sku,
         },
-        { preserveScroll: true }
+        {
+            preserveScroll: true,
+            onSuccess: () => {
+                Swal.fire({
+                    text: "update harga berhasil",
+                    icon: "success",
+                    toast: true,
+                    position: "top-right",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    iconColor: "#6366f1",
+                    customClass: {
+                        popup: "colored-toast",
+                    },
+                    timerProgressBar: true,
+                });
+            },
+        }
     );
 };
 </script>
@@ -219,3 +237,8 @@ const update = (data, base_price) => {
         </div>
     </AppLayout>
 </template>
+<style>
+.colored-toast {
+    background-color: #eef2ff !important;
+}
+</style>

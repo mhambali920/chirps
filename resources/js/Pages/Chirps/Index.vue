@@ -70,7 +70,7 @@ onUnmounted(() => {
                     />
                 </div>
             </div>
-            <div v-if="onlineUsers" class="p-4 text-gray-600 sm:p-6 lg:p-8">
+            <div v-if="onlineUsers" class="max-w-2xl p-4 sm:p-6 lg:p-8">
                 <OnlineUsers :users="onlineUsers" />
             </div>
         </div>

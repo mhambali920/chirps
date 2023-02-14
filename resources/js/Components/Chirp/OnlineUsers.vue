@@ -11,17 +11,33 @@ const getWidth = () => {
 onMounted(() => getWidth());
 </script>
 <template>
-    <div class="rounded-lg bg-white px-4 py-2 shadow-sm md:px-6 md:py-4">
+    <div class="rounded-md bg-white px-4 py-2 shadow-sm md:px-6 md:py-4">
         <div class="flex items-center justify-between border-b text-slate-900">
             <span class="mr-4">Online Users</span>
             <Icon
                 name="chevron-up"
                 class="cursor-pointer lg:hidden"
+                :class="{ 'rotate-180': !open }"
                 @click="open = !open"
             />
         </div>
-        <ul class="mt-2 text-base" :class="open ? 'block' : 'hidden'">
-            <li v-for="user in users" :key="user.id">{{ user.name }}</li>
-        </ul>
+        <Transition
+            enter-active-class="duration-300 ease-out"
+            enter-from-class="transform opacity-0"
+            enter-to-class="opacity-100"
+            leave-active-class="duration-200 ease-in"
+            leave-from-class="opacity-100"
+            leave-to-class="transform opacity-0"
+        >
+            <ul
+                v-if="open"
+                class="mt-2 text-base"
+                :class="open ? 'block' : 'hidden'"
+            >
+                <li v-for="user in users" :key="user.id" class="ml-2 list-disc">
+                    {{ user.name }}
+                </li>
+            </ul>
+        </Transition>
     </div>
 </template>

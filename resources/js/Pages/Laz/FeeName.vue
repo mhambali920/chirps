@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from "../../Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import { usePage, Link } from "@inertiajs/vue3";
 import { computed } from "vue";

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\LazProductController;
 use App\Http\Controllers\LazTrxController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -44,9 +45,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-    Route::resource('chirps', ChirpController::class)
-        ->only(['index', 'store', 'create', 'update', 'destroy'])
-        ->middleware(['auth', 'verified']);
+    Route::resource('chirps', ChirpController::class)->only(['index', 'store', 'create', 'update', 'destroy']);
+    Route::resource('users', UsersController::class)->only(['index', 'destroy'])->middleware('admin');
     Route::get('/laz_transaction', [LazTrxController::class, 'index'])->name('laztrx.index');
     Route::post('/laz_transaction', [LazTrxController::class, 'import'])->name('laztrx.import');
     Route::get('/laz_transaction/edit', [LazTrxController::class, 'edit'])->name('laztrx.edit');
