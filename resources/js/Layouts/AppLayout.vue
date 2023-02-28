@@ -67,6 +67,14 @@ const logout = () => {
                                     Obrolan
                                 </NavLink>
                                 <NavLink
+                                    :href="
+                                        route('extracker.transactions.index')
+                                    "
+                                    :active="route().current('extracker.*')"
+                                >
+                                    XTracker
+                                </NavLink>
+                                <NavLink
                                     :href="route('laztrx.index')"
                                     :active="route().current('laztrx.*')"
                                 >

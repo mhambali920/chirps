@@ -59,7 +59,10 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        return Inertia::render(
+            'User/Edit',
+            ['data' => User::find($id)]
+        );
     }
 
     /**
@@ -83,6 +86,6 @@ class UsersController extends Controller
     public function destroy($id)
     {
         User::destroy($id);
-        return redirect(route('users.index'));
+        return redirect()->route('users.index');
     }
 }
