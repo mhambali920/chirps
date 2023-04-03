@@ -67,5 +67,6 @@ Route::middleware([
 
         Route::get('piutang', [PiutangController::class, 'index'])->name('piutang.index');
         Route::post('piutang/accept', [PiutangController::class, 'accept'])->name('piutang.accept');
+        Route::post('utang/pay', [PiutangController::class, 'pay'])->name('piutang.pay');
     });
 });

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('due_date')->nullable();
             $table->string('contact_name')->nullable();
             $table->unsignedBigInteger('contact_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

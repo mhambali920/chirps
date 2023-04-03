@@ -85,41 +85,19 @@ const destroy = (id) => {
                         class="flex-auto overflow-hidden bg-white shadow-xl sm:rounded-lg"
                     >
                         <table
-                            class="min-w-full table-auto overflow-x-scroll bg-white md:table-fixed"
+                            class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
                         >
-                            <thead class="bg-gray-800 text-white">
+                            <thead
+                                class="bg-gray-200 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+                            >
                                 <tr>
-                                    <th
-                                        class="py-3 px-4 text-left text-sm font-semibold uppercase"
-                                    >
-                                        TYPE
-                                    </th>
-                                    <th
-                                        class="py-3 px-4 text-left text-sm font-semibold uppercase"
-                                    >
-                                        NAME
-                                    </th>
-                                    <th
-                                        class="py-3 px-4 text-left text-sm font-semibold uppercase"
-                                    >
-                                        DESCRIPTION
-                                    </th>
-                                    <th
-                                        class="py-3 px-4 text-left text-sm font-semibold uppercase"
-                                    >
-                                        CASHLESS
-                                    </th>
-                                    <th
-                                        class="py-3 px-4 text-left text-sm font-semibold uppercase"
-                                    >
-                                        ICON
-                                    </th>
+                                    <th class="px-6 py-3">TYPE</th>
+                                    <th class="px-6 py-3">NAME</th>
+                                    <th class="px-6 py-3">DESCRIPTION</th>
+                                    <th class="px-6 py-3">CASHLESS</th>
+                                    <th class="px-6 py-3">ICON</th>
 
-                                    <th
-                                        class="py-3 px-4 text-center text-sm font-semibold uppercase"
-                                    >
-                                        ACTION
-                                    </th>
+                                    <th class="px-6 py-3">ACTION</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-700">
@@ -128,7 +106,7 @@ const destroy = (id) => {
                                         v-for="category in $page.props
                                             .categories"
                                         :key="category.id"
-                                        class="hover:bg-gray-100"
+                                        class="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
                                     >
                                         <td class="py-3 px-4 text-left">
                                             {{

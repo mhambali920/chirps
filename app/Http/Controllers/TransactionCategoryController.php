@@ -23,8 +23,8 @@ class TransactionCategoryController extends Controller
             'type' => 'required|in:income,expense',
             'description' => 'required',
             'cashless' => 'required|integer|in:1,0',
-            'icon' => 'required|string',
-            'icon_color' => 'required|string',
+            'icon' => 'nullable|string',
+            'icon_color' => 'nullable|string',
         ]);
         TransactionCategory::updateOrCreate(
             ['id' => $request->input('id')],

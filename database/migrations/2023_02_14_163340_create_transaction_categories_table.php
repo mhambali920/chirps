@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('description');
             $table->boolean('cashless')->default(1);
             $table->longText('icon')->nullable();
-            $table->string('icon_color');
+            $table->string('icon_color')->nullable();
             $table->timestamps();
         });
     }

@@ -9,7 +9,7 @@ import DialogModal from "@/Components/DialogModal.vue";
 import Pagination from "@/Components/Pagination.vue";
 import SubNavigation from "@/Components/SubNavigation.vue";
 import Swal from "sweetalert2";
-import { ref, reactive, watch, computed, defineProps } from "vue";
+import { ref, reactive, watch, computed } from "vue";
 import { useForm, router } from "@inertiajs/vue3";
 const props = defineProps({
     transactions: Object,

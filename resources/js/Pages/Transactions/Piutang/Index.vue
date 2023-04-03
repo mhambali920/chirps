@@ -7,7 +7,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { reactive, defineProps, ref } from "vue";
+import { reactive, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -20,10 +20,11 @@ const openModalAccept = ref(false);
 const openModalDetail = ref(false);
 const openModalPay = ref(false);
 
-const selectedpiutang = ref(true);
+const showTablePiutang = ref(true);
 
 // detail piutang
 let piutangDetails = reactive({});
+let remaining_debt = ref(null);
 const showDetail = (item) => {
     openModalDetail.value = true;
     piutangDetails = item;
@@ -37,6 +38,7 @@ const acceptForm = useForm({
     date: null,
 });
 const accept = (id, total) => {
+    remaining_debt.value = total;
     openModalAccept.value = true;
     acceptForm.trx_id = id;
     console.log(id);
@@ -50,6 +52,7 @@ const closeModal = () => {
     openModalDetail.value = false;
     openModalPay.value = false;
     showFormAccept.value = false;
+    acceptForm.clearErrors();
 };
 </script>
 <template>
@@ -91,10 +94,10 @@ const closeModal = () => {
                             >
                                 <li class="mr-2">
                                     <button
-                                        @click="selectedpiutang = true"
+                                        @click="showTablePiutang = true"
                                         :class="{
                                             'border-b-2 border-gray-400 font-semibold':
-                                                selectedpiutang,
+                                                showTablePiutang,
                                         }"
                                         class="inline-block rounded-t-lg p-4 dark:bg-gray-800 dark:text-blue-500"
                                     >
@@ -105,9 +108,9 @@ const closeModal = () => {
                                     <button
                                         :class="{
                                             'border-b-2 border-gray-400 font-semibold':
-                                                !selectedpiutang,
+                                                !showTablePiutang,
                                         }"
-                                        @click="selectedpiutang = false"
+                                        @click="showTablePiutang = false"
                                         class="inline-block rounded-t-lg p-4 hover:bg-gray-50 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-300"
                                     >
                                         Data Hutang
@@ -117,7 +120,7 @@ const closeModal = () => {
                         </div>
 
                         <div
-                            v-if="selectedpiutang"
+                            v-if="showTablePiutang"
                             class="relative overflow-x-auto shadow-md sm:rounded-lg"
                         >
                             <table
@@ -179,7 +182,13 @@ const closeModal = () => {
                                         </td>
                                         <td class="px-6 py-4 text-right">
                                             <button
-                                                @click="accept(item.id)"
+                                                @click="
+                                                    accept(
+                                                        item.id,
+                                                        item.amount -
+                                                            item.accepted
+                                                    )
+                                                "
                                                 class="mr-2 font-medium text-blue-600 hover:underline dark:text-blue-500"
                                             >
                                                 Terima
@@ -290,6 +299,12 @@ const closeModal = () => {
                     Terima seluruhnya atau sebagian ?
                 </div>
                 <div v-if="showFormAccept">
+                    <p class="text-sm text-gray-800">
+                        Piutang yang belum di terima sebesar
+                        <span class="font-semibold">{{
+                            formatRupiah(remaining_debt)
+                        }}</span>
+                    </p>
                     <div>
                         <InputLabel for="date" value="Tanggal" />
                         <TextInput
@@ -343,7 +358,6 @@ const closeModal = () => {
             <template #title>
                 <div class="text-lg font-bold">Detail Piutang</div></template
             >
-
             <template #content
                 ><div class="p-6">
                     <div class="w-3/4 border-red-200">
@@ -417,12 +431,8 @@ const closeModal = () => {
                             <thead>
                                 <tr class="bg-gray-200 text-left">
                                     <td class="py-2 px-4">Tanggal</td>
-                                    <td class="py-2 px-4">
-                                        Penerimaan (dalam Rp)
-                                    </td>
-                                    <td class="py-2 px-4">
-                                        Sisa Piutang (dalam Rp)
-                                    </td>
+                                    <td class="py-2 px-4">Penerimaan</td>
+                                    <td class="py-2 px-4">Sisa Piutang</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -432,9 +442,13 @@ const closeModal = () => {
                                     class="border-b border-gray-200"
                                 >
                                     <td class="py-2 px-4">{{ item.date }}</td>
-                                    <td class="py-2 px-4">{{ item.amount }}</td>
                                     <td class="py-2 px-4">
-                                        <span>{{ item.remaining_debt }}</span>
+                                        {{ formatRupiah(item.amount) }}
+                                    </td>
+                                    <td class="py-2 px-4">
+                                        <span>{{
+                                            formatRupiah(item.remaining_debt)
+                                        }}</span>
                                     </td>
                                 </tr>
                             </tbody>
