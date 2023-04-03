@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Installment extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+    public function Transaction()
+    {
+        return $this->belongsTo(Transaction::class);
+    }
 }

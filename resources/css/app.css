@@ -10,12 +10,10 @@
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
     width: 15px;
+    color: rgb(75, 34, 253);
 }
 @layer base {
     body {
         @apply bg-gray-100;
-    }
-    ::selection {
-        @apply bg-indigo-700 text-white;
     }
 }

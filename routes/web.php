@@ -7,6 +7,7 @@ use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LazTrxController;
 use App\Http\Controllers\LazProductController;
+use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionCategoryController;
 
@@ -63,5 +64,8 @@ Route::middleware([
         Route::get('categories', [TransactionCategoryController::class, 'index'])->name('categories.index');
         Route::post('categories', [TransactionCategoryController::class, 'store'])->name('categories.store');
         Route::delete('categories/{id}', [TransactionCategoryController::class, 'destroy'])->name('categories.destroy');
+
+        Route::get('piutang', [PiutangController::class, 'index'])->name('piutang.index');
+        Route::post('piutang/accept', [PiutangController::class, 'accept'])->name('piutang.accept');
     });
 });

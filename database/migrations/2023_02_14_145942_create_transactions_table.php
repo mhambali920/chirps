@@ -16,12 +16,14 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('category_id');
             $table->date('date');
             $table->integer('amount');
-            $table->enum('payment_type', ['cash', 'noncash']);
-            $table->unsignedBigInteger('customer_id')->nullable();
-            $table->unsignedBigInteger('category_id');
             $table->string('description')->nullable();
+            $table->enum('payment_type', ['cash', 'noncash']);
+            $table->date('due_date')->nullable();
+            $table->string('contact_name')->nullable();
+            $table->unsignedBigInteger('contact_id')->nullable();
             $table->timestamps();
         });
     }

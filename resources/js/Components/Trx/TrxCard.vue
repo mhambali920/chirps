@@ -65,7 +65,7 @@ const destroy = (id) => {
                 {{ trx.category_name }}
             </p>
             <p class="font-medium text-gray-400">
-                {{ trx.description }}
+                {{ trx.description }} - {{ trx.contact_name }}
             </p>
         </div>
         <div class="kanan">
@@ -82,7 +82,7 @@ const destroy = (id) => {
             <div class="flex gap-2">
                 <button
                     @click="$emit('edit', trx)"
-                    class="rounded-lg bg-purple-100 p-1 focus:ring-1 focus:ring-purple-600"
+                    class="rounded-lg bg-indigo-100 p-1 focus:ring-1 focus:ring-indigo-600"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,7 @@ const destroy = (id) => {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="h-5 w-5 text-purple-600"
+                        class="h-5 w-5 text-indigo-600"
                     >
                         <path
                             stroke-linecap="round"

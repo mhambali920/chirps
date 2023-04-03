@@ -5,6 +5,7 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import SubNavigation from "@/Components/SubNavigation.vue";
 import Swal from "sweetalert2";
 import Icon from "@/Components/Icon.vue";
 import { useForm, usePage } from "@inertiajs/vue3";
@@ -74,12 +75,8 @@ const destroy = (id) => {
 </script>
 <template>
     <AppLayout title="category transaksi">
-        <template #header
-            ><h2
-                class="text-lg font-semibold leading-tight text-gray-800 md:text-xl"
-            >
-                Categories
-            </h2>
+        <template #header>
+            <SubNavigation />
         </template>
         <div class="relative py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">

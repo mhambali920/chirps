@@ -29,6 +29,18 @@ createInertiaApp({
                             minimumFractionDigits: 0,
                         }).format(money);
                     },
+                    timeDiff(date) {
+                        const dueDate = new Date(date);
+                        const today = new Date();
+                        const timeDiff = dueDate.getTime() - today.getTime();
+                        const daysDiff = Math.ceil(
+                            timeDiff / (1000 * 3600 * 24)
+                        );
+                        if (dueDate < today) {
+                            return `Lewat ${Math.abs(daysDiff)} hari`;
+                        }
+                        return `${daysDiff} hari lagi`;
+                    },
                 },
             })
             .mount(el);
