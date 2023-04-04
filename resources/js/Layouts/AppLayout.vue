@@ -382,6 +382,12 @@ const logout = () => {
                             Obrolan
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
+                            :href="route('extracker.transactions.index')"
+                            :active="route().current('extracker.*')"
+                        >
+                            XTracker
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
                             :href="route('laztrx.index')"
                             :active="route().current('laztrx.*')"
                         >

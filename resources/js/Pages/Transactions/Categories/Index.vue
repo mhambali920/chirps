@@ -97,7 +97,12 @@ const destroy = (id) => {
                                     <th class="px-6 py-3">CASHLESS</th>
                                     <th class="px-6 py-3">ICON</th>
 
-                                    <th class="px-6 py-3">ACTION</th>
+                                    <th
+                                        v-if="$page.props.user.role === 'ADMIN'"
+                                        class="px-6 py-3"
+                                    >
+                                        ACTION
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-700">
@@ -135,7 +140,13 @@ const destroy = (id) => {
                                             ></span>
                                         </td>
 
-                                        <td class="py-3 px-4">
+                                        <td
+                                            v-if="
+                                                $page.props.user.role ===
+                                                'ADMIN'
+                                            "
+                                            class="py-3 px-4"
+                                        >
                                             <button
                                                 @click="edit(category)"
                                                 class="mr-2 inline"
@@ -177,7 +188,7 @@ const destroy = (id) => {
                             </tbody>
                         </table>
                     </div>
-                    <div class="w-1/3">
+                    <div v-if="$page.props.user.role === 'ADMIN'" class="w-1/3">
                         <div class="bg-white px-4 py-3 shadow-xl sm:rounded-lg">
                             <h2 class="mb-3 text-lg font-semibold uppercase">
                                 Add Category

@@ -9,8 +9,6 @@ use App\Models\TransactionCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use function PHPSTORM_META\map;
-
 class PiutangController extends Controller
 {
     public function index(Request $request)
@@ -52,7 +50,7 @@ class PiutangController extends Controller
                 ];
             });
 
-        $total_utang = $utang->sum('amount');
+        $total_utang = $utang->sum('amount') - $utang->sum('paid');
         $total_piutang = $piutang->sum('amount') - $piutang->sum('accepted');
         // dd([$piutang, $utang, $total_piutang, $total_utang]);
         return Inertia::render('Transactions/Piutang/Index', [
@@ -67,7 +65,7 @@ class PiutangController extends Controller
     {
         $transaction = Transaction::findOrFail($request->trx_id);
         $installment = new Installment;
-        $remaining_debt = $transaction->amount - $installment->sum('amount');
+        $remaining_debt = $transaction->amount - $installment->where('transaction_id', '=', $request->trx_id)->sum('amount');
         $request->validate([
             'trx_id' => ['integer', 'required'],
             'date' => ['required', 'date'],
@@ -80,7 +78,10 @@ class PiutangController extends Controller
             $installment->date = $request->date;
             $installment->remaining_debt = $remaining_debt - $request->amount;
             $installment->save();
-
+            // Cek apakah cicilan telah melunasi seluruh transaksi
+            if ($installment->sum('amount') == $transaction->amount) {
+                $transaction->delete();
+            }
             // buat data transaksi baru berdasarkan cicilan
             $category = TransactionCategory::where('name', '=', 'Penerimaan Piutang')->first();
             $newTransaction = new Transaction;
@@ -93,15 +94,15 @@ class PiutangController extends Controller
             $newTransaction->contact_name = $transaction->contact_name;
             $newTransaction->save();
         }
-
         // redirect
         return  redirect()->route('extracker.transactions.index');
     }
+
     public function pay(Request $request)
     {
         $transaction = Transaction::findOrFail($request->trx_id);
         $installment = new Installment;
-        $remaining_debt = $transaction->amount - $installment->sum('amount');
+        $remaining_debt = $transaction->amount - $installment->where('transaction_id', '=', $request->trx_id)->sum('amount');
         $request->validate([
             'trx_id' => ['integer', 'required'],
             'date' => ['required', 'date'],
@@ -114,9 +115,12 @@ class PiutangController extends Controller
             $installment->date = $request->date;
             $installment->remaining_debt = $remaining_debt - $request->amount;
             $installment->save();
-
+            // Cek apakah cicilan telah melunasi seluruh transaksi
+            if ($installment->sum('amount') == $transaction->amount) {
+                $transaction->delete();
+            }
             // buat data transaksi baru berdasarkan cicilan
-            $category = TransactionCategory::where('name', '=', 'Penerimaan Piutang')->first();
+            $category = TransactionCategory::where('name', '=', 'Pembayaran Utang')->first();
             $newTransaction = new Transaction;
             $newTransaction->user_id = Auth::id();
             $newTransaction->category_id = $category->id;
@@ -127,7 +131,6 @@ class PiutangController extends Controller
             $newTransaction->contact_name = $transaction->contact_name;
             $newTransaction->save();
         }
-
         // redirect
         return  redirect()->route('extracker.transactions.index');
     }

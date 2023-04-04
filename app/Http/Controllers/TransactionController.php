@@ -32,7 +32,7 @@ class TransactionController extends Controller
         return Inertia::render('Transactions/Index', [
             'month' => $month,
             'transactions' => $transactions->paginate(10),
-            'categories' => TransactionCategory::all(['id', 'name', 'type']),
+            'categories' => TransactionCategory::all(['id', 'name', 'type', 'cashless']),
             'total_income' => Transaction::getTotal('income', 'cash', $month, $year),
             'total_expense' => Transaction::getTotal('expense', 'cash', $month, $year)
         ]);
@@ -67,6 +67,7 @@ class TransactionController extends Controller
                 'due_date' => $request->due_date,
             ]
         );
+        return redirect()->route('extracker.transactions.index');
 
         // if ($transaction->type == 'noncash') {
         //     $installment = new Installment;
@@ -77,7 +78,7 @@ class TransactionController extends Controller
         //     $installment->save();
         // }
 
-        return redirect()->route('extracker.transactions.index');
+        // return redirect()->route('extracker.transactions.index');
     }
 
     public function destroy($id)

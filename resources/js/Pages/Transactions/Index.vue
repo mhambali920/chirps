@@ -365,6 +365,9 @@ const expCategory = computed(() => {
                 </div>
                 <div class="mt-4 block">
                     <InputLabel value="METODE PEMBAYARAN" />
+                    <p class="my-1 text-xs text-gray-500">
+                        Transaksi non-tunai akan di catat pada pi/utang
+                    </p>
                     <div class="mt-2 flex items-center gap-x-6">
                         <div class="flex items-center">
                             <input

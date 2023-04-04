@@ -11,8 +11,10 @@ const getWidth = () => {
 onMounted(() => getWidth());
 </script>
 <template>
-    <div class="rounded-md bg-white px-4 py-2 shadow-sm md:px-6 md:py-4">
-        <div class="flex items-center justify-between border-b text-slate-900">
+    <div
+        class="rounded-md bg-white px-4 py-2 font-medium text-gray-500 shadow-sm md:px-6 md:py-4"
+    >
+        <div class="flex items-center justify-between border-b">
             <span class="mr-4">Online Users</span>
             <Icon
                 name="chevron-up"

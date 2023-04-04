@@ -17,20 +17,21 @@ const props = defineProps({
     total_utang: [Number, String],
 });
 const openModalAccept = ref(false);
-const openModalDetail = ref(false);
+const openModalPiutang = ref(false);
+const openModalUtang = ref(false);
 const openModalPay = ref(false);
 
 const showTablePiutang = ref(true);
 
-// detail piutang
-let piutangDetails = reactive({});
+let details = reactive({});
 let remaining_debt = ref(null);
-const showDetail = (item) => {
-    openModalDetail.value = true;
-    piutangDetails = item;
+
+// piutang
+const showDetailPiutang = (item) => {
+    openModalPiutang.value = true;
+    details = item;
 };
 
-// penerimaan piutang
 const showFormAccept = ref(false);
 const acceptForm = useForm({
     trx_id: null,
@@ -41,18 +42,39 @@ const accept = (id, total) => {
     remaining_debt.value = total;
     openModalAccept.value = true;
     acceptForm.trx_id = id;
-    console.log(id);
 };
 const submitAccept = () => {
     acceptForm.post(route("extracker.piutang.accept"));
 };
 
+// utang
+const showDetailUtang = (item) => {
+    openModalUtang.value = true;
+    details = item;
+};
+const showFormPay = ref(false);
+const payForm = useForm({
+    trx_id: null,
+    amount: null,
+    date: null,
+});
+const pay = (id, total) => {
+    remaining_debt.value = total;
+    openModalPay.value = true;
+    payForm.trx_id = id;
+};
+const submitPay = () => {
+    payForm.post(route("extracker.utang.pay"));
+};
+
 const closeModal = () => {
     openModalAccept.value = false;
-    openModalDetail.value = false;
+    openModalPiutang.value = false;
+    openModalUtang.value = false;
     openModalPay.value = false;
     showFormAccept.value = false;
     acceptForm.clearErrors();
+    payForm.clearErrors();
 };
 </script>
 <template>
@@ -146,7 +168,7 @@ const closeModal = () => {
                                             Tanggal Jatuh Tempo
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Pelanggan
+                                            Kontak
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             <span class="sr-only">Details</span>
@@ -194,7 +216,7 @@ const closeModal = () => {
                                                 Terima
                                             </button>
                                             <button
-                                                @click="showDetail(item)"
+                                                @click="showDetailPiutang(item)"
                                                 class="font-medium text-blue-600 hover:underline dark:text-blue-500"
                                             >
                                                 Rincian
@@ -231,7 +253,7 @@ const closeModal = () => {
                                             Tanggal Jatuh Tempo
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Pelanggan
+                                            Kontak
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             <span class="sr-only">Details</span>
@@ -256,7 +278,9 @@ const closeModal = () => {
                                         <td class="px-6 py-4">
                                             {{ formatRupiah(item.amount) }}
                                         </td>
-                                        <td class="px-6 py-4">{{ 0 }}</td>
+                                        <td class="px-6 py-4">
+                                            {{ formatRupiah(item.paid) }}
+                                        </td>
                                         <td class="px-6 py-4">
                                             {{ item.due_date }}
                                         </td>
@@ -265,11 +289,18 @@ const closeModal = () => {
                                         </td>
                                         <td class="px-6 py-4 text-right">
                                             <button
+                                                @click="
+                                                    pay(
+                                                        item.id,
+                                                        item.amount - item.paid
+                                                    )
+                                                "
                                                 class="mr-2 font-medium text-blue-600 hover:underline dark:text-blue-500"
                                             >
                                                 Bayar
                                             </button>
                                             <button
+                                                @click="showDetailUtang(item)"
                                                 class="font-medium text-blue-600 hover:underline dark:text-blue-500"
                                             >
                                                 Rincian
@@ -284,11 +315,69 @@ const closeModal = () => {
             </div>
         </div>
         <DialogModal :show="openModalPay" @close="closeModal">
-            <template #title></template>
+            <template #title
+                ><div class="text-lg font-bold">Bayar Utang</div></template
+            >
 
-            <template #content> </template>
+            <template #content>
+                <div v-show="!showFormPay" class="text-lg">
+                    Bayar seluruhnya atau sebagian ?
+                </div>
+                <div v-if="showFormPay">
+                    <p class="text-sm text-gray-800">
+                        Utang yang belum di bayar sebesar
+                        <span class="font-semibold">{{
+                            formatRupiah(remaining_debt)
+                        }}</span>
+                    </p>
+                    <div>
+                        <InputLabel for="date" value="Tanggal" />
+                        <TextInput
+                            id="date"
+                            v-model="payForm.date"
+                            type="date"
+                            class="mt-1 block w-full"
+                            required
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="payForm.errors.date"
+                        />
+                    </div>
+                    <div class="mt-4">
+                        <InputLabel for="amount" value="Jumlah" />
+                        <TextInput
+                            id="amount"
+                            v-model="payForm.amount"
+                            type="number"
+                            class="mt-1 block w-full"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="payForm.errors.amount"
+                        />
+                    </div>
+                </div>
+            </template>
 
-            <template #footer> </template>
+            <template #footer>
+                <SecondaryButton v-if="!showFormPay">
+                    Seluruhnya
+                </SecondaryButton>
+                <SecondaryButton
+                    v-if="!showFormPay"
+                    @click="showFormPay = true"
+                    class="ml-3"
+                >
+                    Sebagian
+                </SecondaryButton>
+                <PrimaryButton
+                    v-if="showFormPay"
+                    class="ml-3"
+                    @click="submitPay"
+                    >Save</PrimaryButton
+                ></template
+            >
         </DialogModal>
         <DialogModal :show="openModalAccept" @close="closeModal">
             <template #title
@@ -354,7 +443,7 @@ const closeModal = () => {
                 >
             </template>
         </DialogModal>
-        <DialogModal :show="openModalDetail" @close="closeModal">
+        <DialogModal :show="openModalPiutang" @close="closeModal">
             <template #title>
                 <div class="text-lg font-bold">Detail Piutang</div></template
             >
@@ -375,8 +464,7 @@ const closeModal = () => {
                             <div class="mt-2 font-bold">
                                 {{
                                     formatRupiah(
-                                        piutangDetails.amount -
-                                            piutangDetails.accepted
+                                        details.amount - details.accepted
                                     )
                                 }}
                             </div>
@@ -386,9 +474,9 @@ const closeModal = () => {
                         </div>
                         <div class="mb-6">
                             Tanggal Jatuh Tempo:
-                            <span>{{ piutangDetails.due_date }}</span> (
+                            <span>{{ details.due_date }}</span> (
                             <span class="">{{
-                                timeDiff(piutangDetails.due_date)
+                                timeDiff(details.due_date)
                             }}</span>
                             )
                         </div>
@@ -399,12 +487,12 @@ const closeModal = () => {
                             <div>
                                 <div>
                                     Piutang dibuat pada
-                                    {{ piutangDetails.date }} sejumlah
-                                    {{ formatRupiah(piutangDetails.amount) }}
+                                    {{ details.date }} sejumlah
+                                    {{ formatRupiah(details.amount) }}
                                 </div>
                                 <div>
                                     Sudah diterima sejumlah
-                                    {{ formatRupiah(piutangDetails.accepted) }}
+                                    {{ formatRupiah(details.accepted) }}
                                 </div>
                             </div>
                         </div>
@@ -412,14 +500,14 @@ const closeModal = () => {
                             <div class="border-4 border-black p-2">
                                 <div class="font-bold">Transaksi</div>
                                 <div class="text-lg">
-                                    {{ piutangDetails.category_name }}
+                                    {{ details.category_name }}
                                 </div>
                                 <div class="text-sm"></div>
                             </div>
                             <div class="border-4 border-black p-2">
                                 <div class="font-bold">Pelanggan</div>
                                 <div class="text-lg">
-                                    {{ piutangDetails.contact_name }}
+                                    {{ details.contact_name }}
                                 </div>
                                 <div class="text-sm">-</div>
                             </div>
@@ -437,7 +525,7 @@ const closeModal = () => {
                             </thead>
                             <tbody>
                                 <tr
-                                    v-for="item in piutangDetails.installments"
+                                    v-for="item in details.installments"
                                     :key="item.id"
                                     class="border-b border-gray-200"
                                 >
@@ -456,7 +544,105 @@ const closeModal = () => {
                     </div>
                 </div>
             </template>
-
+            <template #footer> </template>
+        </DialogModal>
+        <DialogModal :show="openModalUtang" @close="closeModal">
+            <template #title>
+                <div class="text-lg font-bold">Detail Utang</div></template
+            >
+            <template #content
+                ><div class="p-6">
+                    <div class="w-3/4 border-red-200">
+                        <div class="mt-4">
+                            <div class="flex items-center">
+                                <div class="text-lg">Utang Belum Dibayar</div>
+                                <div
+                                    class="ml-2 h-2 w-2 rounded-full bg-red-600"
+                                >
+                                    &nbsp;
+                                </div>
+                            </div>
+                            <div class="mt-2 font-bold">
+                                {{
+                                    formatRupiah(details.amount - details.paid)
+                                }}
+                            </div>
+                        </div>
+                        <div class="my-2 h-1 border-b border-gray-400">
+                            &nbsp;
+                        </div>
+                        <div class="mb-6">
+                            Tanggal Jatuh Tempo:
+                            <span>{{ details.due_date }}</span> (
+                            <span class="">{{
+                                timeDiff(details.due_date)
+                            }}</span>
+                            )
+                        </div>
+                        <div class="flex items-center">
+                            <div class="px-2">
+                                <i class="far fa-note-sticky fa-2x"></i>
+                            </div>
+                            <div>
+                                <div>
+                                    Utang dibuat pada
+                                    {{ details.date }} sejumlah
+                                    {{ formatRupiah(details.amount) }}
+                                </div>
+                                <div>
+                                    Sudah dibayar sejumlah
+                                    {{ formatRupiah(details.paid) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 grid gap-x-4 md:grid-cols-2">
+                            <div class="border-4 border-black p-2">
+                                <div class="font-bold">Transaksi</div>
+                                <div class="text-lg">
+                                    {{ details.category_name }}
+                                </div>
+                                <div class="text-sm"></div>
+                            </div>
+                            <div class="border-4 border-black p-2">
+                                <div class="font-bold">Kontak</div>
+                                <div class="text-lg">
+                                    {{ details.contact_name }}
+                                </div>
+                                <div class="text-sm">-</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 mb-4 font-bold">Riwayat Pembayaran</div>
+                    <div class="max-h-36 w-full overflow-y-scroll">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-gray-200 text-left">
+                                    <td class="py-2 px-4">Tanggal</td>
+                                    <td class="py-2 px-4">Pembayaran</td>
+                                    <td class="py-2 px-4">Sisa Utang</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    v-for="item in details.installments"
+                                    :key="item.id"
+                                    class="border-b border-gray-200"
+                                >
+                                    <td class="py-2 px-4">{{ item.date }}</td>
+                                    <td class="py-2 px-4">
+                                        {{ formatRupiah(item.amount) }}
+                                    </td>
+                                    <td class="py-2 px-4">
+                                        <span>{{
+                                            formatRupiah(item.remaining_debt)
+                                        }}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </template>
             <template #footer> </template>
         </DialogModal>
     </AppLayout>
