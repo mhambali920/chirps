@@ -1,5 +1,6 @@
 <script setup>
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import { Link } from "@inertiajs/vue3";
 </script>
 
 <template>
@@ -12,13 +13,14 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
             <div class="mt-8 text-2xl">Selamat datang di aplikasi Kreasip</div>
 
             <div class="mt-6 text-gray-500">
-                Laravel Jetstream provides a beautiful, robust starting point
-                for your next Laravel application. Laravel is designed to help
-                you build your application using a development environment that
-                is simple, powerful, and enjoyable. We believe you should love
-                expressing your creativity through programming, so we have spent
-                time carefully crafting the Laravel ecosystem to be a breath of
-                fresh air. We hope you love it.
+                Aplikasi web multifungsi yang memberikan kemudahan dalam
+                berbagai aktivitas bisnis Anda!. kami menawarkan fitur expense
+                tracker untuk membantu Anda mengatur keuangan dengan lebih
+                efisien, serta hitung margin penjualan Lazada yang dapat
+                memudahkan Anda dalam menghitung keuntungan dari penjualan
+                produk di platform tersebut. Kreasip hadir untuk memberikan
+                solusi terbaik bagi kebutuhan bisnis Anda. Mari bergabung dan
+                nikmati kemudahan Kreasip!
             </div>
         </div>
 
@@ -42,42 +44,16 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
                     <div
                         class="ml-4 text-lg font-semibold leading-7 text-gray-600"
                     >
-                        <a href="https://laravel.com/docs">Obrolan</a>
+                        <Link :href="route('chirps.index')">Obrolan</Link>
                     </div>
                 </div>
 
                 <div class="ml-12">
                     <div class="mt-2 text-sm text-gray-500">
-                        Laravel has wonderful documentation covering every
-                        aspect of the framework. Whether you're new to the
-                        framework or have previous experience, we recommend
-                        reading all of the documentation from beginning to end.
+                        Disini kamu bebas mengobrol ngaler ngidul dengan sesama
+                        pengguna ataupun berkeluh kesah tentang kerasnya
+                        kehidupan, yang penting sopan aja ya.
                     </div>
-
-                    <a href="https://laravel.com/docs">
-                        <div
-                            class="mt-3 flex items-center text-sm font-semibold text-indigo-700"
-                        >
-                            <div>Explore the documentation</div>
-
-                            <div class="ml-1 text-indigo-500">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="h-4 w-4"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                                    />
-                                </svg>
-                            </div>
-                        </div>
-                    </a>
                 </div>
             </div>
 
@@ -99,42 +75,23 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
                     <div
                         class="ml-4 text-lg font-semibold leading-7 text-gray-600"
                     >
-                        <a href="https://laracasts.com">Expense Tracker</a>
+                        <Link :href="route('extracker.transactions.index')"
+                            >Expense Tracker</Link
+                        >
                     </div>
                 </div>
 
                 <div class="ml-12">
                     <div class="mt-2 text-sm text-gray-500">
-                        Laracasts offers thousands of video tutorials on
-                        Laravel, PHP, and JavaScript development. Check them
-                        out, see for yourself, and massively level up your
-                        development skills in the process.
+                        Catatan keuangan merupakan salah satu hal yang penting
+                        dalam bisnis, dan Kreasip hadir untuk membantu Anda
+                        dalam mengelola keuangan dengan lebih mudah dan efisien.
+                        Dengan fitur expense tracker yang tersedia di dalam
+                        aplikasi, Anda dapat dengan mudah mencatat dan melacak
+                        semua pengeluaran bisnis Anda, sehingga Anda dapat
+                        mengontrol dan meminimalkan pengeluaran yang tidak
+                        perlu.
                     </div>
-
-                    <a href="https://laracasts.com">
-                        <div
-                            class="mt-3 flex items-center text-sm font-semibold text-indigo-700"
-                        >
-                            <div>Start watching Laracasts</div>
-
-                            <div class="ml-1 text-indigo-500">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="h-4 w-4"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                                    />
-                                </svg>
-                            </div>
-                        </div>
-                    </a>
                 </div>
             </div>
 
@@ -158,19 +115,21 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
                     <div
                         class="ml-4 text-lg font-semibold leading-7 text-gray-600"
                     >
-                        <a href="https://tailwindcss.com/"
-                            >Laporan Akun Lazada</a
+                        <Link :href="route('laztrx.index')"
+                            >Laporan Akun Lazada</Link
                         >
                     </div>
                 </div>
 
                 <div class="ml-12">
                     <div class="mt-2 text-sm text-gray-500">
-                        Laravel Jetstream is built with Tailwind, an amazing
-                        utility first CSS framework that doesn't get in your
-                        way. You'll be amazed how easily you can build and
-                        maintain fresh, modern designs with this wonderful
-                        framework at your fingertips.
+                        Dengan fitur hitung margin penjualan Lazada, Anda juga
+                        dapat dengan cepat menghitung keuntungan yang diperoleh
+                        dari penjualan produk di platform tersebut. Kreasip
+                        hadir sebagai solusi terbaik untuk membantu Anda
+                        mengelola catatan keuangan bisnis dengan lebih efektif,
+                        sehingga bisnis Anda dapat tumbuh dan berkembang dengan
+                        baik.
                     </div>
                 </div>
             </div>
@@ -194,17 +153,14 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
                     <div
                         class="ml-4 text-lg font-semibold leading-7 text-gray-600"
                     >
-                        Authentication
+                        ??
                     </div>
                 </div>
 
                 <div class="ml-12">
                     <div class="mt-2 text-sm text-gray-500">
-                        Authentication and registration views are included with
-                        Laravel Jetstream, as well as support for user email
-                        verification and resetting forgotten passwords. So,
-                        you're free to get started what matters most: building
-                        your application.
+                        Kalo ada bug atau error silakan hubungi admin di nomor
+                        085890811119 / 081299702225
                     </div>
                 </div>
             </div>
