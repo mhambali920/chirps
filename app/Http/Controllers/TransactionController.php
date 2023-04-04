@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Inertia\Inertia;
-use App\Models\Installment;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\TransactionCategory;

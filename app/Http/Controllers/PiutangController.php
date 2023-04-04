@@ -65,7 +65,8 @@ class PiutangController extends Controller
     {
         $transaction = Transaction::findOrFail($request->trx_id);
         $installment = new Installment;
-        $remaining_debt = $transaction->amount - $installment->where('transaction_id', '=', $request->trx_id)->sum('amount');
+        $totalLatestInstallment = $installment->where('transaction_id', '=', $request->trx_id)->sum('amount');
+        $remaining_debt = $transaction->amount - $totalLatestInstallment;
         $request->validate([
             'trx_id' => ['integer', 'required'],
             'date' => ['required', 'date'],
@@ -79,7 +80,7 @@ class PiutangController extends Controller
             $installment->remaining_debt = $remaining_debt - $request->amount;
             $installment->save();
             // Cek apakah cicilan telah melunasi seluruh transaksi
-            if ($installment->sum('amount') == $transaction->amount) {
+            if ($installment->where('transaction_id', '=', $request->trx_id)->sum('amount') == $transaction->amount) {
                 $transaction->delete();
             }
             // buat data transaksi baru berdasarkan cicilan
@@ -116,7 +117,7 @@ class PiutangController extends Controller
             $installment->remaining_debt = $remaining_debt - $request->amount;
             $installment->save();
             // Cek apakah cicilan telah melunasi seluruh transaksi
-            if ($installment->sum('amount') == $transaction->amount) {
+            if ($installment->where('transaction_id', '=', $request->trx_id)->sum('amount') == $transaction->amount) {
                 $transaction->delete();
             }
             // buat data transaksi baru berdasarkan cicilan

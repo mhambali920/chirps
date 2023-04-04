@@ -8,7 +8,18 @@ import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { reactive, ref } from "vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
+
+function getLocalDateInMySQLFormat() {
+    const date = new Date();
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const formattedDate = date
+        .toLocaleDateString("id-ID", options)
+        .split("/")
+        .reverse()
+        .join("-");
+    return formattedDate;
+}
 
 const props = defineProps({
     utang: Object,
@@ -43,6 +54,13 @@ const accept = (id, total) => {
     openModalAccept.value = true;
     acceptForm.trx_id = id;
 };
+const acceptAll = () => {
+    router.post(route("extracker.piutang.accept"), {
+        trx_id: acceptForm.trx_id,
+        amount: remaining_debt.value,
+        date: getLocalDateInMySQLFormat(),
+    });
+};
 const submitAccept = () => {
     acceptForm.post(route("extracker.piutang.accept"));
 };
@@ -63,6 +81,13 @@ const pay = (id, total) => {
     openModalPay.value = true;
     payForm.trx_id = id;
 };
+const payAll = () => {
+    router.post(route("extracker.utang.pay"), {
+        trx_id: payForm.trx_id,
+        amount: remaining_debt.value,
+        date: getLocalDateInMySQLFormat(),
+    });
+};
 const submitPay = () => {
     payForm.post(route("extracker.utang.pay"));
 };
@@ -73,6 +98,7 @@ const closeModal = () => {
     openModalUtang.value = false;
     openModalPay.value = false;
     showFormAccept.value = false;
+    showFormPay.value = false;
     acceptForm.clearErrors();
     payForm.clearErrors();
 };
@@ -361,7 +387,7 @@ const closeModal = () => {
             </template>
 
             <template #footer>
-                <SecondaryButton v-if="!showFormPay">
+                <SecondaryButton @click="payAll" v-if="!showFormPay">
                     Seluruhnya
                 </SecondaryButton>
                 <SecondaryButton
@@ -425,7 +451,7 @@ const closeModal = () => {
             </template>
 
             <template #footer>
-                <SecondaryButton v-if="!showFormAccept">
+                <SecondaryButton v-if="!showFormAccept" @click="acceptAll">
                     Seluruhnya
                 </SecondaryButton>
                 <SecondaryButton
