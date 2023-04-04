@@ -68,17 +68,6 @@ class TransactionController extends Controller
             ]
         );
         return redirect()->route('extracker.transactions.index');
-
-        // if ($transaction->type == 'noncash') {
-        //     $installment = new Installment;
-        //     $installment->date = $transaction->date;
-        //     $installment->amount = $transaction->amount;
-        //     $installment->remaining_debt = $transaction->amount;
-        //     $installment->transaction_id = $transaction->id;
-        //     $installment->save();
-        // }
-
-        // return redirect()->route('extracker.transactions.index');
     }
 
     public function destroy($id)
