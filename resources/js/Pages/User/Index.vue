@@ -5,6 +5,9 @@ import Pagination from "@/Components/Pagination.vue";
 import { router, Head, Link } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
 
+defineProps({
+    users: Object,
+});
 const deleteUser = (id) => {
     Swal.fire({
         title: "Are you sure?",
@@ -48,7 +51,7 @@ const deleteUser = (id) => {
         <template #header>
             <div class="">
                 <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    Users List
+                    users List
                 </h2>
             </div>
         </template>
@@ -83,9 +86,9 @@ const deleteUser = (id) => {
                             </tr>
                         </thead>
                         <tbody class="text-gray-700">
-                            <template v-if="$page.props.users.data.length">
+                            <template v-if="users.data.length">
                                 <tr
-                                    v-for="user in $page.props.users.data"
+                                    v-for="user in users.data"
                                     :key="user.id"
                                     class="hover:bg-gray-100"
                                 >
@@ -146,10 +149,10 @@ const deleteUser = (id) => {
                 >
                     <div class="text-gray-700">
                         {{
-                            `Showing ${$page.props.users.from} to ${$page.props.users.to} of  ${$page.props.users.total} data`
+                            `Showing ${users.from} to ${users.to} of  ${users.total} data`
                         }}
                     </div>
-                    <Pagination :links="$page.props.users.links" />
+                    <Pagination :links="users.links" />
                 </div>
             </div>
         </div>
