@@ -8,6 +8,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LazTrxController;
 use App\Http\Controllers\LazProductController;
 use App\Http\Controllers\PiutangController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionCategoryController;
 
@@ -22,19 +23,15 @@ use App\Http\Controllers\TransactionCategoryController;
 |
 */
 
+// blog
+Route::get('/', [PostController::class, 'index']);
+Route::get('/post/{post:slug}', [PostController::class, 'show']);
+
 Route::get('/news', function () {
     return Inertia::render('Front/Index');
 });
 Route::get('/news/{id}', function () {
     return Inertia::render('Front/Show');
-});
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
 });
 
 Route::middleware([

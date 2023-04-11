@@ -21,6 +21,7 @@ module.exports = {
                 ],
                 oswald: ["Oswald", "sans-serif"],
                 source: ["Source Serif Pro", "serif"],
+                rubik: ["Rubik", "sans-serif"],
             },
         },
     },
