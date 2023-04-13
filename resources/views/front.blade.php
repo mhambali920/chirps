@@ -12,7 +12,11 @@
 
 
     @vite(['resources/css/app.css'])
-
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <!-- Font Awesome -->

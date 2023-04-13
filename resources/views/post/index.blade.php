@@ -21,10 +21,10 @@
                 class="absolute left-0 right-0 bottom-0 lg:px-16 lg:py-0 bg-gradient-black rounded-lg p-5 transform translate-y-20">
                 <div class="bg-white w-full p-5 rounded-lg shadow-lg">
                     <ul class="flex text-xt sm:text-sm text-blue-800 font-medium mb-2 -mx-1">
-                        <li class="px-1"><a href="">Berita</a></li>
+                        <li class="px-1"><a href="">{{$posts[0]->category->name}}</a></li>
                     </ul>
                     <h2 class="text-sm sm:text-xl lg:text-4xl font-bold mb-2 text-gray-600"><a
-                            href="{{ url('post/'.$posts[0]->slug ) }}"
+                            href="{{ url('blog/'.$posts[0]->slug ) }}"
                             class="uppercase hover:text-gray-500">{{$posts[0]->title}}</a></h2>
                     <div class="mb-2 text-xs text-gray-300 items-center -mx-2 sm:text-sm"><span
                             class="block md:inline-block px-2">Oleh
@@ -32,7 +32,8 @@
                                     class="text-gray-500 hover:text-gray-500 font-medium capitalize">{{$posts[0]->user->name}}</span></a></span>
                         <time
                             class="block md:inline-block px-2 md:float-right">{{\Carbon\Carbon::parse($posts[0]->published_at)->format('d
-                            M Y') }}</time>
+                            M Y') }}
+                        </time>
                     </div>
                 </div>
             </div>
@@ -42,7 +43,7 @@
     <div class="container mx-auto px-5 mb-20 sm:mb-32 lg:px-10">
         <div class="flex items-end justify-between font-medium mb-10">
             <div class="block"><span class="uppercase text-blue-800 text-sm">Artikel</span>
-                <h2 class="font-bold text-2xl text-gray-600 md:text-3xl">Pilihan</h2>
+                <h2 class="font-bold text-2xl text-gray-600 md:text-3xl">Terbaru</h2>
             </div> <a href="#"
                 class="text-white text-xt sm:text-sm bg-blue-800 rounded-full py-1 px-3 sm:py-2 sm:px-6 transition-all duration-200 hover:bg-blue-dark hover:text-white hover:shadow-xl mb-2">Lainnya<i
                     class="ml-2 fas fa-arrow-right"></i></a>
@@ -52,7 +53,7 @@
             <div class="post px-2 whitespace-normal mb-3 lg:mb-0 lg:px-0">
                 <article
                     class="transition-all duration-200 transform lg:hover:-translate-y-2 bg-white shadow-lg rounded-md thumbnail">
-                    <a href="{{ url('post/'.$post->slug ) }}">
+                    <a href="{{ url('blog/'.$post->slug ) }}">
                         @if ($post->image)
                         <img width="373" height="163" src="{{asset('storage/post-image/'.$post->image)}}" alt=""
                             decoding="async" loading="lazy" sizes="(max-width: 373px) 100vw, 373px"
@@ -73,7 +74,7 @@
                         <div class="flex justify-between items-start">
                             <h2
                                 class="entry-title text-sm lg:text-lg font-bold lg:font-medium mb-2 overflow-hidden h-10 lg:h-14">
-                                <a href="{{ url('post/'.$post->slug ) }}"
+                                <a href="{{ url('blog/'.$post->slug ) }}"
                                     class="hover:text-gray-500 text-gray-600">{{$post->title}}</a>
                             </h2>
                         </div>

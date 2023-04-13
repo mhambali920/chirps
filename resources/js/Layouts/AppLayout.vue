@@ -87,6 +87,13 @@ const logout = () => {
                                 >
                                     Users
                                 </NavLink>
+                                <NavLink
+                                    v-if="$page.props.user.role === 'ADMIN'"
+                                    :href="route('post.index')"
+                                    :active="route().current('post.*')"
+                                >
+                                    Post
+                                </NavLink>
                             </div>
                         </div>
 

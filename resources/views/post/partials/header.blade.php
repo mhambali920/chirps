@@ -1,4 +1,4 @@
-<header class="fixed z-50 top-0 bg-blue-800 text-white w-full shadow-lg">
+<header x-data="{open : false}" class="fixed z-50 top-0 bg-blue-800 text-white w-full shadow-lg">
     <div class="container mx-auto px-2 lg:px-10">
         <div class="flex items-center py-3">
             <div class="flex lg:w-1/4 lg:mr-0 px-3">
@@ -31,10 +31,10 @@
                     </a>
                 </div>
             </div>
-            <button name="menubar" class="block lg:hidden px-3 mx-auto"><i class="fas fa-bars"></i></button>
+            <button @click="open = !open" class="block lg:hidden px-3 mx-auto"><i class="fas fa-bars"></i></button>
         </div>
     </div>
-    <div class="container hidden lg:block mx-auto">
+    <div x-cloak x-bind:class="! open ? 'hidden' : ''" class="container lg:block mx-auto">
         <nav>
             <div class="">
                 <ul class="flex lg:justify-center capitalize overflow-x-auto whitespace-no-wrap">

@@ -8,6 +8,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LazTrxController;
 use App\Http\Controllers\LazProductController;
 use App\Http\Controllers\PiutangController;
+use App\Http\Controllers\PostAdminController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionCategoryController;
@@ -25,7 +26,7 @@ use App\Http\Controllers\TransactionCategoryController;
 
 // blog
 Route::get('/', [PostController::class, 'index']);
-Route::get('/post/{post:slug}', [PostController::class, 'show']);
+Route::get('/blog/{post:slug}', [PostController::class, 'show']);
 
 Route::get('/news', function () {
     return Inertia::render('Front/Index');
@@ -66,4 +67,10 @@ Route::middleware([
         Route::post('piutang/accept', [PiutangController::class, 'accept'])->name('piutang.accept');
         Route::post('utang/pay', [PiutangController::class, 'pay'])->name('utang.pay');
     });
+
+    Route::get('post-admin', [PostAdminController::class, 'index'])->name('post.index');
+    Route::get('post-admin/create', [PostAdminController::class, 'create'])->name('post.create');
+    Route::get('post-admin/{id}', [PostAdminController::class, 'edit'])->name('post.edit');
+    Route::post('post-admin/', [PostAdminController::class, 'store'])->name('post.store');
+    Route::delete('post-admin/{id}', [PostAdminController::class, 'destroy'])->name('post.destroy');
 });

@@ -1,180 +1,167 @@
 @extends('front')
 @section('content')
-<div class="container mx-auto flex flex-wrap py-6">
-    <!-- Post Section -->
-    <section class="w-full md:w-2/3 flex flex-col items-center px-3">
-        <article class="flex flex-col shadow my-4">
-            <!-- Article Image -->
+
+<section role="document" class="relative mt-16 lg:mt-24 overflow-x-hidden">
+    <div class="container relative items-center mx-auto mb-10 mt-10 lg:mt-16 px-5 lg:px-10">
+        <div class="bg-white text-sm block lg:w-2/3 mx-auto">
+            <div class="bg-blue-200 absolute transform -translate-x-full w-full h-10 block"></div>
+            <ul
+                class="inline-flex items-center bg-blue-200 -mx-2 pr-5 h-10 text-blue-800 rounded-tr-full rounded-br-full">
+                <li class="px-2"><a href="/" rel="nofollow">Home</a></li>
+                <li class="px-2 text-xt"><i class="fas fa-chevron-right"></i></li>
+                <li class="px-2 whitespace-nowrap"><a href="">{{$post->category->name}}</a></li>
+                <li class="px-2 text-xt"><i class="fas fa-chevron-right"></i></li>
+                <li class="px-2 font-medium w-64 md:w-auto whitespace-nowrap overflow-x-hidden">{{$post->title}}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="content" class="container mx-auto px-5 mb-20 sm:mb-24 lg:px-10 text-gray-600">
+        <div class="block lg:w-2/3 mx-auto">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-snug mb-5 ">{{$post->title}}</h1>
+            <div class="mb-10 text-xs text-gray-300 items-center -mx-2 md:text-base"><span
+                    class="block md:inline-block px-2">Oleh
+                    <a href="#" class="inline-block"><span
+                            class="text-gray-500 hover:text-gray-500 font-medium capitalize">{{$post->user->name}}</span></a></span>
+                <time id="postDate"
+                    class="block md:inline-block px-2 md:float-right">{{\Carbon\Carbon::parse($post->published_at)->format('d
+                    M Y') }}</time>
+            </div>
 
             @if ($post->image)
-            <img src="{{asset('storage/post-image/'.$post->image)}}" alt="{{$post->title}}"
-                class="rounded-lg hover:opacity-75">
+            <img width="800" height="350" src="{{asset('storage/post-image/'.$post->image)}}" alt="{{$post->title}}"
+                decoding="async" sizes="(max-width: 800px) 100vw, 800px" class="mb-10 rounded-lg w-full wp-post-image">
             @else
-            <img src="{{asset('storage/post-image/default.jpg')}}" alt="{{$post->title}}"
-                class="rounded-lg hover:opacity-75">
+            <img width="800" height="350" src="{{asset('storage/post-image/default-01.webp')}}" alt="{{$post->title}}"
+                decoding="async" sizes="(max-width: 800px) 100vw, 800px" class="mb-10 rounded-lg w-full wp-post-image">
             @endif
 
-            <div class="bg-white flex flex-col justify-start p-6">
-                <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">{{$post->category->name}}</a>
-                <h1 class="text-3xl font-bold hover:text-gray-700 pb-4">{{$post->title}}</h1>
-                <p class="text-sm pb-8">
-                    <span class="font-semibold hover:text-gray-800">{{$post->user->name}}</span>,
-                    {{\Carbon\Carbon::parse($post->published_at)->format('d M Y') }}
-                </p>
-                <div>{{ $post->body }}</div>
+            <div class="content leading-relaxed mb-10 font-sans text-lg md:text-xl">
+                {{$post->body}}
             </div>
-        </article>
-
-        <div class="w-full pt-6">
-            @if ($prevSlug)
-            <a href="{{ url('post/'.$prevSlug->slug) }}"
-                class="float-left w-1/2 bg-white shadow hover:shadow-md text-left p-6">
-                <p class="text-lg text-blue-800 font-bold flex items-center"><i class="fas fa-arrow-left pr-1"></i>
-                    Previous</p>
-                <p class="pt-2">{{$prevSlug->title}}</p>
-            </a>
-            @endif
-
-            @if ($nextSlug)
-            <a href="{{ url('post/'.$nextSlug->slug) }}"
-                class="float-right w-1/2 bg-white shadow hover:shadow-md text-right p-6">
-                <p class="text-lg text-blue-800 font-bold flex items-center justify-end">Next <i
-                        class="fas fa-arrow-right pl-1"></i></p>
-                <p class="pt-2">{{$nextSlug->title}}</p>
-            </a>
-            @endif
-
-        </div>
-
-        <div class="w-full flex flex-col text-center md:text-left md:flex-row shadow bg-white mt-10 mb-10 p-6">
-            <div class="w-full md:w-1/5 flex justify-center md:justify-start pb-4">
-                <img src="https://source.unsplash.com/collection/1346951/150x150?sig=1"
-                    class="rounded-full shadow h-32 w-32" />
-            </div>
-            <div class="flex-1 flex flex-col justify-center md:justify-start">
-                <p class="font-semibold text-2xl">David</p>
-                <p class="pt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel neque non libero suscipit
-                    suscipit eu eu urna.
-                </p>
-                <div class="flex items-center justify-center md:justify-start text-2xl no-underline text-blue-800 pt-4">
-                    <a class="" href="#">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                    <a class="pl-4" href="#">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a class="pl-4" href="#">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a class="pl-4" href="#">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
+            <div id="author"
+                class="flex flex-col items-center justify-center bg-white rounded-lg shadow-lg p-5 border border-gray-100">
+                <img alt="" src="{{$post->user->profile_photo_url}}" height="96" width="96" loading="lazy"
+                    decoding="async"
+                    class="avatar avatar-96 photo h-24 w-24 rounded-full bg-blue-500/10 object-contain mb-5">
+                <h5 class="text-xl font-medium"><a href="#" class="inline-block">
+                        {{$post->user->name}}
+                    </a></h5>
+                <p class="text-center mb-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci
+                    dignissimos hic cum enim harum, voluptatibus, vero sit quasi fugiat, recusandae quis ea consequuntur
+                    omnis exercitationem. Voluptas, enim. Delectus, cupiditate similique.</p>
+                <div class="flex">
+                    <a href="" target="_blank" class="mx-2 hover:text-blue"><i class="fab fa-linkedin text-xl"></i></a>
+                    <a href="" target="_blank" class="mx-2 hover:text-blue"><i class="fab fa-instagram text-xl"></i></a>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Sidebar Section -->
-    <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
-        <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-            <p class="text-xl font-semibold pb-5">About Us</p>
-            <p class="pb-2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mattis est eu odio sagittis tristique.
-                Vestibulum ut finibus
-                leo. In hac habitasse platea dictumst.
-            </p>
-            <a href="#"
-                class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-4">
-                Get to know us
-            </a>
-        </div>
-
-        <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-            <p class="text-xl font-semibold pb-5">Instagram</p>
-            <div class="grid grid-cols-3 gap-3">
-                <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=1" />
-                <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=2" />
-                <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=3" />
-                <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=4" />
-                <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=5" />
-                <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=6" />
-                <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=7" />
-                <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=8" />
-                <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=9" />
+    </div>
+    <div class="container mx-auto px-5 mb-20 sm:mb-32 lg:px-10 text-gray-600">
+        <div class="flex items-end justify-between font-medium mb-10">
+            <div class="block"><span class="uppercase text-blue-800 text-sm">Artikel</span>
+                <h2 class="font-bold text-2xl md:text-3xl">Lainnya</h2>
             </div>
-            <a href="#"
-                class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-6">
-                <i class="fab fa-instagram mr-2"></i> Follow @dgrzyb
-            </a>
         </div>
-    </aside>
-</div>
-<aside aria-label="Related articles" class="py-8 lg:py-24 bg-gray-50 dark:bg-gray-800">
-    <div class="px-4 mx-auto max-w-screen-xl">
-        <h2 class="mb-8 text-2xl font-bold text-gray-900 dark:text-white">Related articles</h2>
-        <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
-            <article class="max-w-xs">
-                <a href="#">
-                    <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-1.png"
-                        class="mb-5 rounded-lg" alt="Image 1">
-                </a>
-                <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                    <a href="#">Our first office</a>
-                </h2>
-                <p class="mb-4 font-light text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone
-                    many changes! After months of preparation.</p>
-                <a href="#"
-                    class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                    Read in 2 minutes
-                </a>
-            </article>
-            <article class="max-w-xs">
-                <a href="#">
-                    <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-2.png"
-                        class="mb-5 rounded-lg" alt="Image 2">
-                </a>
-                <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                    <a href="#">Enterprise design tips</a>
-                </h2>
-                <p class="mb-4 font-light text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone
-                    many changes! After months of preparation.</p>
-                <a href="#"
-                    class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                    Read in 12 minutes
-                </a>
-            </article>
-            <article class="max-w-xs">
-                <a href="#">
-                    <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-3.png"
-                        class="mb-5 rounded-lg" alt="Image 3">
-                </a>
-                <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                    <a href="#">We partnered with Google</a>
-                </h2>
-                <p class="mb-4 font-light text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone
-                    many changes! After months of preparation.</p>
-                <a href="#"
-                    class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                    Read in 8 minutes
-                </a>
-            </article>
-            <article class="max-w-xs">
-                <a href="#">
-                    <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-4.png"
-                        class="mb-5 rounded-lg" alt="Image 4">
-                </a>
-                <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                    <a href="#">Our first project with React</a>
-                </h2>
-                <p class="mb-4 font-light text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone
-                    many changes! After months of preparation.</p>
-                <a href="#"
-                    class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                    Read in 4 minutes
-                </a>
-            </article>
+        <div id="list-post"
+            class="transition-all ease-in-out -mx-2 lg:mx-0 grid grid-cols-2 gap-2 lg:grid-cols-3 lg:gap-10">
+            <div class="post px-2 whitespace-normal mb-3 lg:mb-0 lg:px-0">
+                <article
+                    class="transition-all duration-200 transform lg:hover:-translate-y-2 bg-white shadow-lg rounded-md thumbnail post-25103 post type-post status-publish format-standard has-post-thumbnail hentry category-berita tag-cara-kerja-sistem-operasi tag-fungsi-dari-sistem-operasi-adalah tag-sistem-operasi-adalah">
+                    <a href="https://www.domainesia.com/berita/sistem-operasi-adalah/"><img width="373" height="163"
+                            src="https://www.domainesia.com/wp-content/uploads/2023/01/Sistem_Operasi_blog-373x163.jpeg"
+                            alt="" decoding="async" loading="lazy" sizes="(max-width: 373px) 100vw, 373px"
+                            class="object-cover w-full h-24 lg:h-40 rounded-lg md:mb-2 wp-post-image"></a>
+                    <div class="px-3 py-2 overflow-x-hidden">
+                        <div class="flex justify-between items-center mb-2">
+                            <ul class="flex text-xs text-blue-800 font-medium -mx-1">
+                                <li class="px-1"><a href="https://www.domainesia.com/./berita/">Berita</a></li>
+                            </ul>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h2
+                                class="entry-title text-sm lg:text-lg font-bold lg:font-medium mb-2 overflow-hidden h-10 lg:h-14">
+                                <a href="https://www.domainesia.com/berita/sistem-operasi-adalah/"
+                                    class="hover:text-gray-500">Sistem Operasi Adalah: Cara Kerja, Fungsi, Jenis, dan
+                                    Contohnya</a>
+                            </h2>
+                        </div>
+                        <div class="mb-2 text-xs text-gray-300 items-center -mx-2 "><span
+                                class="block md:inline-block px-2">Oleh
+                                <a href="https://www.domainesia.com/author/mila/" class="inline-block"><span
+                                        class="text-gray-500 hover:text-gray-500 font-medium capitalize">Mila
+                                        Rosyida</span></a></span> <time id="postDate"
+                                class="block md:inline-block px-2 md:float-right">27 Maret 2023</time></div>
+                    </div>
+                </article>
+            </div>
+            <div class="post px-2 whitespace-normal mb-3 lg:mb-0 lg:px-0">
+                <article
+                    class="transition-all duration-200 transform lg:hover:-translate-y-2 bg-white shadow-lg rounded-md thumbnail post-20008 post type-post status-publish format-standard has-post-thumbnail hentry category-berita tag-availability tag-cloud-hosting-adalah tag-cloud-hosting-domainesia tag-keamanan-yang-tinggi tag-kecepatan tag-skalabilitas">
+                    <a href="https://www.domainesia.com/berita/cloud-hosting-adalah/"><img width="373" height="163"
+                            src="https://www.domainesia.com/wp-content/uploads/2021/12/34._Memahami_Cloud_Hosting_Adalah_Solusi_Performa_Web_Terbaik-373x163.jpg"
+                            alt="" decoding="async" loading="lazy"
+                            srcset="https://www.domainesia.com/wp-content/uploads/2021/12/34._Memahami_Cloud_Hosting_Adalah_Solusi_Performa_Web_Terbaik-373x163.jpg 373w, https://www.domainesia.com/wp-content/uploads/2021/12/34._Memahami_Cloud_Hosting_Adalah_Solusi_Performa_Web_Terbaik-250x109.jpg 250w, https://www.domainesia.com/wp-content/uploads/2021/12/34._Memahami_Cloud_Hosting_Adalah_Solusi_Performa_Web_Terbaik-768x336.jpg 768w, https://www.domainesia.com/wp-content/uploads/2021/12/34._Memahami_Cloud_Hosting_Adalah_Solusi_Performa_Web_Terbaik.jpg 800w"
+                            sizes="(max-width: 373px) 100vw, 373px"
+                            class="object-cover w-full h-24 lg:h-40 rounded-lg md:mb-2 wp-post-image"></a>
+                    <div class="px-3 py-2 overflow-x-hidden">
+                        <div class="flex justify-between items-center mb-2">
+                            <ul class="flex text-xs text-blue-800 font-medium -mx-1">
+                                <li class="px-1"><a href="https://www.domainesia.com/./berita/">Berita</a></li>
+                            </ul>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h2
+                                class="entry-title text-sm lg:text-lg font-bold lg:font-medium mb-2 overflow-hidden h-10 lg:h-14">
+                                <a href="https://www.domainesia.com/berita/cloud-hosting-adalah/"
+                                    class="hover:text-gray-500">Memahami Cloud Hosting Adalah Solusi Performa Web
+                                    Terbaik</a>
+                            </h2>
+                        </div>
+                        <div class="mb-2 text-xs text-gray-300 items-center -mx-2 "><span
+                                class="block md:inline-block px-2">Oleh
+                                <a href="https://www.domainesia.com/author/ratna/" class="inline-block"><span
+                                        class="text-gray-500 hover:text-gray-500 font-medium capitalize">Ratna
+                                        Patria</span></a></span> <time id="postDate"
+                                class="block md:inline-block px-2 md:float-right">21 Februari 2023</time></div>
+                    </div>
+                </article>
+            </div>
+            <div class="post px-2 whitespace-normal mb-3 lg:mb-0 lg:px-0">
+                <article
+                    class="transition-all duration-200 transform lg:hover:-translate-y-2 bg-white shadow-lg rounded-md thumbnail post-7739 post type-post status-publish format-standard has-post-thumbnail hentry category-tips tag-wordpress tag-wordpress-adalah tag-wordpress-admin-login tag-wordpress-atau-blogger tag-wordpress-free tag-wordpress-gratis tag-wordpress-template tag-wordpress-theme-free tag-wordpress-tutorial">
+                    <a href="https://www.domainesia.com/tips/apa-itu-wordpress/"><img width="373" height="163"
+                            src="https://www.domainesia.com/wp-content/uploads/2023/03/1-1-373x163.jpeg" alt=""
+                            decoding="async" loading="lazy"
+                            srcset="https://www.domainesia.com/wp-content/uploads/2023/03/1-1-373x163.jpeg 373w, https://www.domainesia.com/wp-content/uploads/2023/03/1-1-250x109.jpeg 250w, https://www.domainesia.com/wp-content/uploads/2023/03/1-1-768x336.jpeg 768w, https://www.domainesia.com/wp-content/uploads/2023/03/1-1.jpeg 800w"
+                            sizes="(max-width: 373px) 100vw, 373px"
+                            class="object-cover w-full h-24 lg:h-40 rounded-lg md:mb-2 wp-post-image"></a>
+                    <div class="px-3 py-2 overflow-x-hidden">
+                        <div class="flex justify-between items-center mb-2">
+                            <ul class="flex text-xs text-blue-800 font-medium -mx-1">
+                                <li class="px-1"><a href="https://www.domainesia.com/./tips/">Tips</a></li>
+                            </ul>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h2
+                                class="entry-title text-sm lg:text-lg font-bold lg:font-medium mb-2 overflow-hidden h-10 lg:h-14">
+                                <a href="https://www.domainesia.com/tips/apa-itu-wordpress/"
+                                    class="hover:text-gray-500">Apa Itu WordPress? Pengertian, Kelebihan dan
+                                    Fungsinya</a>
+                            </h2>
+                        </div>
+                        <div class="mb-2 text-xs text-gray-300 items-center -mx-2 "><span
+                                class="block md:inline-block px-2">Oleh
+                                <a href="https://www.domainesia.com/author/ayoni/" class="inline-block"><span
+                                        class="text-gray-500 hover:text-gray-500 font-medium capitalize">Ayoni
+                                        Sulthon</span></a></span> <time id="postDate"
+                                class="block md:inline-block px-2 md:float-right">27 Maret 2023</time></div>
+                    </div>
+                </article>
+            </div>
         </div>
     </div>
-</aside>
+
+
+</section>
 @endsection
